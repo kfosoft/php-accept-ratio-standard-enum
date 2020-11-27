@@ -1,16 +1,15 @@
 <?php
-namespace kfosoft\enums;
+namespace KFOSOFT\Domain\Display\Enumeration;
 
-use \kfosoft\base\Enum;
+use KFOSOFT\Domain\Enumeration\AbstractEnumeration;
+use ReflectionException;
+use RuntimeException;
 
 /**
  * Graphics display resolution.
  * @see https://en.wikipedia.org/wiki/Graphics_display_resolution
- * @package kfosoft\enums
- * @version 1.0
- * @copyright (c) 2014-2015 KFOSoftware Team <kfosoftware@gmail.com>
  */
-class StandardAcceptRatio extends Enum
+class StandardAcceptRatio extends AbstractEnumeration
 {
     /* Constants. */
     const SR_1024_1280 = '1024x1280';
@@ -179,30 +178,32 @@ class StandardAcceptRatio extends Enum
     const SR_1024_600 = '1024x600';
 
     /* Constants resolutions. */
-    const SAR_4_5 = '4:5';
-    const SAR_3_4 = '3:4';
-    const SAR_2_3 = '2:3';
-    const SAR_10_16 = '10:16';
-    const SAR_3_5 = '3:5';
-    const SAR_9_16 = '9:16';
-    const SAR_10_19 = '10:19';
-    const SAR_9_21 = '9:21';
-    const SAR_16_25 = '16:25';
-    const SAR_10_18 = '10:18';
+    const SAR_4_5    = '4:5';
+    const SAR_3_4    = '3:4';
+    const SAR_2_3    = '2:3';
+    const SAR_10_16  = '10:16';
+    const SAR_3_5    = '3:5';
+    const SAR_9_16   = '9:16';
+    const SAR_10_19  = '10:19';
+    const SAR_9_21   = '9:21';
+    const SAR_16_25  = '16:25';
+    const SAR_10_18  = '10:18';
     const SAR_75_128 = '75:128';
-    const SAR_5_4 = '5:4';
-    const SAR_4_3 = '4:3';
-    const SAR_3_2 = '3:2';
-    const SAR_16_10 = '16:10';
-    const SAR_5_3 = '5:3';
-    const SAR_16_9 = '16:9';
-    const SAR_19_10 = '19:10';
-    const SAR_21_9 = '21:9';
-    const SAR_25_16 = '25:16';
-    const SAR_18_10 = '18:10';
+    const SAR_5_4    = '5:4';
+    const SAR_4_3    = '4:3';
+    const SAR_3_2    = '3:2';
+    const SAR_16_10  = '16:10';
+    const SAR_5_3    = '5:3';
+    const SAR_16_9   = '16:9';
+    const SAR_19_10  = '19:10';
+    const SAR_21_9   = '21:9';
+    const SAR_25_16  = '25:16';
+    const SAR_18_10  = '18:10';
     const SAR_128_75 = '128:75';
 
-    /** @var array list accept ratio. */
+    /**
+     * @var array list accept ratio
+     */
     protected static $list = [
         self::SR_1024_1280  => self::SAR_4_5,
         self::SR_2048_2560  => self::SAR_4_5,
@@ -371,7 +372,9 @@ class StandardAcceptRatio extends Enum
 
     ];
 
-    /** @var array list resolutions. */
+    /**
+     * @var array list resolutions
+     */
     protected static $listResolutions = [
         self::SAR_4_5    => [
             self::SR_1024_1280,
@@ -581,29 +584,12 @@ class StandardAcceptRatio extends Enum
         self::SAR_128_75 => [
             self::SR_1024_600,
         ],
-
     ];
-
-    /**
-     * @inheritdoc
-     */
-    public static function labelById($id)
-    {
-        return isset(static::getAcceptRatio()[$id]) ? static::getAcceptRatio()[$id] : null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function idByLabel($label)
-    {
-        return isset(static::getResolutions()[$label]) ? static::getResolutions()[$label] : null;
-    }
 
     /**
      * @return array list resolutions.
      */
-    public static function getResolutions()
+    public static function getResolutions(): array
     {
         return static::$listResolutions;
     }
@@ -611,16 +597,16 @@ class StandardAcceptRatio extends Enum
     /**
      * @return array list accept ratio.
      */
-    public static function getAcceptRatio()
+    public static function getAcceptRatio(): array
     {
-        return static::listData();
+        return self::$list;
     }
 
     /**
      * @param string $resolution resolution.
      * @return null|string accept ratio.
      */
-    public static function getAcceptRatioByResolution($resolution)
+    public static function getAcceptRatioByResolution(string $resolution): ?string
     {
         return isset(static::getAcceptRatio()[$resolution]) ? static::getAcceptRatio()[$resolution] : null;
     }
@@ -629,8 +615,22 @@ class StandardAcceptRatio extends Enum
      * @param string $ratio accept ratio.
      * @return null|string resolutions.
      */
-    public static function getResolutionByAcceptRatio($ratio)
+    public static function getResolutionByAcceptRatio(string $ratio): ?string
     {
         return isset(static::getResolutions()[$ratio]) ? static::getResolutions()[$ratio] : null;
+    }
+
+    /**
+     * @param string $value
+     * @return mixed|void
+     * @throws ReflectionException
+     */
+    public static function from($value)
+    {
+        if (!is_string($value)) {
+            throw new RuntimeException('The value has to be a string');
+        }
+
+        return new self($value);
     }
 }

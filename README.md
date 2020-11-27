@@ -19,8 +19,6 @@ Well done!
 
 API
 -------------
-    labelById                  - Not use.
-    idByLabel                  - Not use.
     getResolutions             - Get standard resolutions.
     getAcceptRatio             - Get standard accept ratio.
     getAcceptRatioByResolution - Get accept ratio of resolution.
@@ -28,7 +26,7 @@ API
 
 #### Example 1
 ~~~
-use kfosoft\enums\StandardAcceptRatio;
+use KFOSOFT\Domain\Display\Enumeration\StandardAcceptRatio;
 
 var_dump(StandardAcceptRatio::getAcceptRatioByResolution('1366x768'));  
 ~~~
